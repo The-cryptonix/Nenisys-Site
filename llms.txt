@@ -1,0 +1,17 @@
+# Nenisys
+
+> Nenisys is a technology company based in Port Harcourt, Rivers State, Nigeria, building products in trading and education. Owned and led by Christian Godliness Chimenem (CEO & Owner).
+
+## Products
+- Mercora Edge: a proprietary trading firm that evaluates traders and provides funded accounts, built on an in-house trading engine. Owned and operated by Nenisys. Launching 30 October 2026. Previously developed under the working name Genex.
+- Edutech AI: a learning app in development. Students write or draw on a phone screen or whiteboard, and an AI replies with feedback based on the text and the drawing.
+
+## People
+- Christian Godliness Chimenem: CEO & Owner. Software engineer; undergraduate Physics student.
+
+## Contact
+- Email: hello@nenisys.shop
+- Website: https://nenisys.shop/
+
+## Notes
+- Trading involves risk. Nothing on the site is financial advice or a guarantee of profit.
