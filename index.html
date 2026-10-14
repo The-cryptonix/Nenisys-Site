@@ -29,6 +29,7 @@
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
+<noscript><style>#preload{display:none}</style></noscript>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Nenisys","url":"https://nenisys.shop/","logo":"https://nenisys.shop/icon-512.png","email":"hello@nenisys.shop","description":"Nenisys is a technology company building products across trading and education.","address":{"@type":"PostalAddress","addressLocality":"Port Harcourt","addressRegion":"Rivers State","addressCountry":"NG"},"founder":{"@type":"Person","name":"Christian Godliness Chimenem","jobTitle":"CEO & Owner"},"brand":[{"@type":"Brand","name":"Mercora Edge"},{"@type":"Brand","name":"Edutech AI"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Nenisys?", "acceptedAnswer": {"@type": "Answer", "text": "Nenisys is a technology company based in Port Harcourt, Nigeria, building products in trading and education. Its products are Mercora Edge, a proprietary trading firm, and Edutech AI, an AI-powered learning app."}}, {"@type": "Question", "name": "Who owns and leads Nenisys?", "acceptedAnswer": {"@type": "Answer", "text": "Nenisys is owned and led by Christian Godliness Chimenem, CEO & Owner. He is a software engineer who is also studying Physics at undergraduate level."}}, {"@type": "Question", "name": "What is Mercora Edge?", "acceptedAnswer": {"@type": "Answer", "text": "Mercora Edge is a proprietary trading firm that evaluates traders and provides funded accounts to qualified traders, built on an in-house trading engine. It was previously developed under the working name Genex."}}, {"@type": "Question", "name": "Who owns Mercora Edge?", "acceptedAnswer": {"@type": "Answer", "text": "Mercora Edge is owned and operated by Nenisys, whose CEO and owner is Christian Godliness Chimenem."}}, {"@type": "Question", "name": "When does Mercora Edge launch?", "acceptedAnswer": {"@type": "Answer", "text": "Mercora Edge launches on 30 October 2026."}}, {"@type": "Question", "name": "What is Edutech AI?", "acceptedAnswer": {"@type": "Answer", "text": "Edutech AI is a learning app in development by Nenisys. Students write or draw on a phone screen or whiteboard, and an AI replies with feedback based on both the text and the drawing."}}, {"@type": "Question", "name": "How can I contact Nenisys?", "acceptedAnswer": {"@type": "Answer", "text": "Email hello@nenisys.shop. Nenisys is based in Port Harcourt, Rivers State, Nigeria."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -180,9 +181,69 @@ header .wrap{position:relative}
 html,body{overflow-x:hidden;max-width:100%}
 main{overflow-x:clip}
 header,.nav,.brand,.links{min-width:0;max-width:100%}
+
+/* ---- Brand motion: page loader, hero wordmark, scroll-out to the N. Dark #141413 on off-white #faf9f5. ---- */
+/* overflow-x:clip (not hidden) keeps body from becoming a scroll container, which would break the sticky brand screen. */
+body{overflow-x:clip}
+#preload{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#faf9f5;color:#141413;transition:opacity .5s ease,visibility .5s}
+#preload.out{opacity:0;visibility:hidden;pointer-events:none}
+#preload svg{width:112px;height:112px;display:block}
+.ld-dot{transform-box:fill-box;transform-origin:center;animation:ld-dot 2s infinite}
+.ld-s1{stroke-dasharray:1;animation:ld-s1 2s infinite}
+.ld-s2{stroke-dasharray:1;animation:ld-s2 2s infinite}
+@keyframes ld-dot{0%{transform:scale(0);animation-timing-function:ease-out}15%{transform:scale(1.25)}25%,75%{transform:scale(1);animation-timing-function:ease-in}90%,100%{transform:scale(0)}}
+@keyframes ld-s1{0%,10%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}35%,70%{stroke-dashoffset:0;animation-timing-function:cubic-bezier(.6,0,.2,1)}95%,100%{stroke-dashoffset:-1}}
+@keyframes ld-s2{0%,25%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}60%,75%{stroke-dashoffset:0;animation-timing-function:cubic-bezier(.6,0,.2,1)}100%{stroke-dashoffset:-1}}
+
+/* Brand screen: pinned off-white screen. The wordmark draws in once, then erases right to left as you scroll, leaving the standalone N. */
+.brand-run{position:relative;height:calc(100vh + 55vh);height:calc(100svh + 55svh);background:#faf9f5}
+.brand-screen{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;background:#faf9f5;color:#141413;overflow:hidden}
+.brand-svg{width:min(780px,86vw);height:auto;display:block}
+/* Base state = finished intro (wordmark beside the small N). Animations only run under .play, so no-JS and reduced motion get this. */
+.bs-markwrap{transform-origin:450px 180px;transform:translate(-261.7px,0) scale(.4667)}
+.bs-s1,.bs-s2,.bs-l{stroke-dasharray:1}
+.play .bs-dot{animation:bs-dot 11s both}
+.play .bs-s1{animation:bs-s1 11s both}
+.play .bs-s2{animation:bs-s2 11s both}
+.play .bs-markwrap{animation:bs-shrink 11s both}
+.play .l2{animation:bs-l2 11s both}
+.play .l3{animation:bs-l3 11s both}
+.play .l4{animation:bs-l4 11s both}
+.play .l5{animation:bs-l5 11s both}
+.play .l6{animation:bs-l6 11s both}
+.play .l7{animation:bs-l7 11s both}
+.play .l8{animation:bs-l8 11s both}
+.play .l9{animation:bs-l9 11s both}
+/* Once scrolling takes over (.done), JS drives the letters and the N directly. */
+.brand-run.done *{animation:none!important}
+@keyframes bs-dot{0%,2.182%{opacity:0;transform:translateY(-40px);animation-timing-function:cubic-bezier(.5,0,1,.6)}5.818%{opacity:1;transform:translateY(0);animation-timing-function:ease-out}7.273%{transform:translateY(-6px);animation-timing-function:ease-in}8.727%,100%{opacity:1;transform:translateY(0)}}
+@keyframes bs-s1{0%,5.091%{stroke-dashoffset:1;opacity:0}5.273%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}11.636%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-s2{0%,10.182%{stroke-dashoffset:1;opacity:0}10.364%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}23.273%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-shrink{0%,27.273%{transform:translate(0,0) scale(1);animation-timing-function:cubic-bezier(.6,0,.2,1)}35.455%,100%{transform:translate(-261.7px,0) scale(.4667)}}
+@keyframes bs-l2{0%,35.455%{stroke-dashoffset:1;opacity:0}35.636%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}40.909%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l3{0%,39.091%{stroke-dashoffset:1;opacity:0}39.273%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}42.273%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l4{0%,40%{stroke-dashoffset:1;opacity:0}40.182%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}45.455%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l5{0%,45.455%{stroke-dashoffset:1;opacity:0}45.636%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}48.636%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l6{0%,47.273%{stroke-dashoffset:1;opacity:0}47.455%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}52.727%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l7{0%,51.818%{stroke-dashoffset:1;opacity:0}52%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}56.364%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l8{0%,55.455%{stroke-dashoffset:1;opacity:0}55.636%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}58.182%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-l9{0%,57.273%{stroke-dashoffset:1;opacity:0}57.455%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}62.727%,100%{stroke-dashoffset:0;opacity:1}}
+.scroll-cue{position:absolute;left:50%;bottom:calc(28px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#141413;opacity:0;transition:opacity .3s}
+.brand-run.ready .scroll-cue{opacity:.55}
+.scroll-cue:after{content:"";display:block;width:1px;height:28px;margin:8px auto 0;background:#141413;transform-origin:top;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0)}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+/* The nav pill sits over off-white while the brand screen is in view, so make it solid enough to read. */
+.on-brand header .nav{background:rgba(14,14,14,.92)}
 </style>
 </head>
 <body>
+<div id="preload" role="status" aria-label="Loading Nenisys">
+  <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <circle class="ld-dot" cx="26" cy="23" r="8" fill="currentColor"/>
+    <path class="ld-s1" pathLength="1" d="M26 77V44" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+    <path class="ld-s2" pathLength="1" d="M74 23V77L51 50" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
 <a class="skip" href="#top">Skip to content</a>
 <header>
   <div class="wrap">
@@ -201,6 +262,32 @@ header,.nav,.brand,.links{min-width:0;max-width:100%}
 </header>
 
 <main id="top">
+  <div class="brand-run" id="brandrun">
+    <div class="brand-screen">
+      <svg class="brand-svg" viewBox="0 0 900 360" role="img" aria-label="NENISYS">
+        <title>NENISYS</title>
+        <g class="bs-markwrap" id="bsmark">
+          <g transform="translate(300 30) scale(3)">
+            <circle class="bs-dot" cx="26" cy="23" r="8" fill="currentColor"/>
+            <path class="bs-s1" pathLength="1" d="M26 77V44" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="bs-s2" pathLength="1" d="M74 23V77L51 50" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </g>
+        <g id="bsword" transform="translate(154.7 110) scale(1.4)" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+          <path class="bs-l l2" pathLength="1" d="M116 23H78V77H116"/>
+          <path class="bs-l l3" pathLength="1" d="M78 50H106"/>
+          <path class="bs-l l4" pathLength="1" d="M146 77V23L194 77V23"/>
+          <path class="bs-l l5" pathLength="1" d="M224 23V77"/>
+          <path class="bs-l l6" pathLength="1" d="M288 23H268A13.5 13.5 0 0 0 268 50H274A13.5 13.5 0 0 1 274 77H254"/>
+          <path class="bs-l l7" pathLength="1" d="M318 23L338 50L358 23"/>
+          <path class="bs-l l8" pathLength="1" d="M338 50V77"/>
+          <path class="bs-l l9" pathLength="1" d="M422 23H402A13.5 13.5 0 0 0 402 50H408A13.5 13.5 0 0 1 408 77H388"/>
+        </g>
+      </svg>
+      <span class="scroll-cue" aria-hidden="true">Scroll</span>
+    </div>
+  </div>
+
   <div class="wrap hero">
     <span class="tag"><i></i>Holding Company</span>
     <h1>Building <span>technology-driven</span> businesses.</h1>
@@ -370,5 +457,49 @@ document.documentElement.classList.add("js");(function(){var io=new Intersection
 var L=[].slice.call(m.querySelectorAll('a.l[href^="#"]')),S=L.map(function(a){return document.querySelector(a.getAttribute("href"))});function sp(){var y=scrollY+140,i=-1;S.forEach(function(x,k){if(x&&x.offsetTop<=y)i=k});L.forEach(function(a,k){a.classList.toggle("active",k===i)})}addEventListener("scroll",sp,{passive:true});sp();
 var T=new Date(2026,9,30,0,0,0).getTime();function p(n){return String(n).padStart(2,"0")}function tick(){var d=T-Date.now();if(d<=0){document.getElementById("cl").textContent="Launch day";document.getElementById("timer").style.display="none";return}var s=Math.floor(d/1e3);document.getElementById("td").textContent=p(Math.floor(s/86400));document.getElementById("th").textContent=p(Math.floor(s%86400/3600));document.getElementById("tm").textContent=p(Math.floor(s%3600/60));document.getElementById("ts").textContent=p(s%60)}tick();setInterval(tick,1000)})();
 document.getElementById('y').textContent=new Date().getFullYear();</script>
+<script>
+/* Brand motion. (1) Loader hand-off: fade the off-white loader, then play the wordmark intro once.
+   (2) Scroll: the wordmark erases right to left and the N grows back to centre (the standalone logo). */
+(function(){
+var d=document,de=d.documentElement,run=d.getElementById("brandrun"),pl=d.getElementById("preload");
+if(!run)return;
+var scr=run.firstElementChild,mark=d.getElementById("bsmark"),cue=run.querySelector(".scroll-cue"),
+L=[].slice.call(d.querySelectorAll("#bsword path")).reverse(),
+rm=matchMedia("(prefers-reduced-motion:reduce)").matches,done=false,raf=0,hid=false;
+function cl(v){return v<0?0:v>1?1:v}
+function ez(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+function paint(p){L.forEach(function(el,i){var e=ez(cl((p-i*.05)/.25));el.style.strokeDashoffset=e;el.style.opacity=e>.995?0:1});var m=ez(cl((p-.45)/.55));mark.style.transform="translate("+(-261.7*(1-m))+"px,0) scale("+(.4667+.5333*m)+")"}
+function finish(){if(done)return;done=true;run.classList.add("done","ready")}
+function upd(){raf=0;var r=run.getBoundingClientRect(),span=run.offsetHeight-scr.offsetHeight,p=span>0?cl(-r.top/span):0;de.classList.toggle("on-brand",r.bottom>90);if(p>0)finish();if(done)paint(p);if(cue)cue.style.opacity=p>0?String(.55*(1-cl(p*5))):""}
+function sched(){if(!raf)raf=requestAnimationFrame(upd)}
+addEventListener("scroll",sched,{passive:true});addEventListener("resize",sched);
+function hide(){if(hid)return;hid=true;if(pl)pl.classList.add("out");if(!done&&!rm)run.classList.add("play");setTimeout(function(){run.classList.add("ready");sched()},rm?0:7000);if(pl)setTimeout(function(){if(pl.parentNode)pl.parentNode.removeChild(pl)},800)}
+function go(){setTimeout(hide,Math.max(0,1200-performance.now()))}
+if(d.readyState==="complete")go();else addEventListener("load",go);
+setTimeout(hide,6000);
+upd();
+})();
+/* Animated favicon (desktop only): the loader N, drawn on a canvas and swapped in as the tab icon while the tab is visible. */
+(function(){
+if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+var cv=document.createElement("canvas");cv.width=cv.height=64;var g=cv.getContext("2d");if(!g||!window.Path2D)return;
+var INK="#141413",BG="#faf9f5",D=2000,P1=new Path2D("M26 77V44"),P2=new Path2D("M74 23V77L51 50");
+function bz(a,b,c,d){return function(t){if(t<=0)return 0;if(t>=1)return 1;var lo=0,hi=1,u=t,s,x;for(var i=0;i<24;i++){s=1-u;x=3*s*s*u*a+3*s*u*u*c+u*u*u;if(Math.abs(x-t)<1e-4)break;if(x<t)lo=u;else hi=u;u=(lo+hi)/2}s=1-u;return 3*s*s*u*b+3*s*u*u*d+u*u*u}}
+var eC=bz(.6,0,.2,1),eO=bz(0,0,.58,1),eI=bz(.42,0,1,1),eE=bz(.25,.1,.25,1);
+function sg(f,a,b,e,x,y){return f<=a?x:f>=b?y:x+(y-x)*e((f-a)/(b-a))}
+function dotS(f){return f<15?sg(f,0,15,eO,0,1.25):f<25?sg(f,15,25,eE,1.25,1):f<75?1:f<90?sg(f,75,90,eI,1,0):0}
+function s1(f){return f<10?1:f<35?sg(f,10,35,eC,1,0):f<70?0:f<95?sg(f,70,95,eC,0,-1):-1}
+function s2(f){return f<25?1:f<60?sg(f,25,60,eC,1,0):f<75?0:sg(f,75,100,eC,0,-1)}
+function stem(p,len,o){if(o>.995||o<-.995)return;g.setLineDash([len,len]);g.lineDashOffset=o*len;g.stroke(p)}
+function tile(s,r){g.beginPath();g.moveTo(r,0);g.arcTo(s,0,s,s,r);g.arcTo(s,s,0,s,r);g.arcTo(0,s,0,0,r);g.arcTo(0,0,s,0,r);g.closePath()}
+function mk(h){var l=document.createElement("link");l.rel="icon";l.type="image/png";l.href=h;return l}
+var olds=[].slice.call(document.querySelectorAll('link[rel~="icon"]')),cur=mk(""),timer=0;
+function frame(){var f=performance.now()%D/D*100,r=dotS(f);g.clearRect(0,0,64,64);g.fillStyle=BG;tile(64,14);g.fill();g.save();g.translate(-4,-4);g.scale(.72,.72);g.fillStyle=INK;g.strokeStyle=INK;g.lineWidth=16;g.lineCap="round";g.lineJoin="round";if(r>.01){g.beginPath();g.arc(26,23,8*r,0,Math.PI*2);g.fill()}stem(P1,33,s1(f));stem(P2,89.47,s2(f));g.restore();var n=mk(cv.toDataURL("image/png"));cur.replaceWith(n);cur=n}
+function start(){if(timer)return;olds.forEach(function(l){l.remove()});document.head.appendChild(cur);frame();timer=setInterval(frame,66)}
+function stop(){if(!timer)return;clearInterval(timer);timer=0;cur.remove();olds.forEach(function(l){document.head.appendChild(l)})}
+document.addEventListener("visibilitychange",function(){if(document.hidden)stop();else start()});
+if(!document.hidden)start();
+})();
+</script>
 </body>
 </html>
