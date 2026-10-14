@@ -46,7 +46,9 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',system-ui,-app
 header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;padding:12px 0}
 .nav{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 9px 0 18px;border:1px solid var(--line);border-radius:999px;background:rgba(14,14,14,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.12em;font-size:14px;text-decoration:none;color:var(--text)}
-.mark{width:28px;height:28px;border-radius:50%;background:var(--o);display:grid;place-items:center;color:var(--on-o);font-weight:800;font-size:14px;letter-spacing:0}
+/* Logo mark: dark N mark on an off-white tile (same as favicon.svg). */
+.mark{width:28px;height:28px;border-radius:8px;background:#faf9f5;display:grid;place-items:center;color:#141413;flex:none}
+.mark svg{width:22px;height:22px;display:block}
 .links{display:flex;align-items:center;gap:6px}
 .links a.l{color:var(--muted);text-decoration:none;font-size:14px;padding:7px 12px;border-radius:999px;transition:.2s}
 .links a.l:hover{color:var(--text)}
@@ -185,7 +187,7 @@ header,.nav,.brand,.links{min-width:0;max-width:100%}
 <header>
   <div class="wrap">
     <div class="nav">
-      <a class="brand" href="#top"><span class="mark">N</span>NENISYS</a>
+      <a class="brand" href="#top"><span class="mark"><svg viewBox="10 10 80 80" aria-hidden="true" focusable="false"><circle cx="26" cy="23" r="8" fill="currentColor"/><path d="M26 44V77" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"/><path d="M74 23V77L51 50" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></span>NENISYS</a>
       <div class="links" id="menu">
         <a class="l" href="#about">About</a>
         <a class="l" href="#edge">Mercora Edge</a>
