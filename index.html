@@ -86,9 +86,8 @@ h2{font-size:clamp(1.6rem,4.2vw,2.3rem);letter-spacing:-.02em;font-weight:700;ma
 .live{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--ctl)}
 .live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--o);margin-right:8px;vertical-align:middle}
 .soon{background:rgba(255,255,255,.06);color:var(--muted)}
-/* Contact card: a lamp on the ceiling of the card, shining down. The glow starts at the top edge and spreads downward, fading out at the bottom of the card (its height is 100% of the card; its width is capped at 640px on wide screens). Static.
-   The lamp keeps its own soft blue light (--glow is set on .cta), so it stays the same even though the rest of the site is carbon + lime. */
-.cta{--glow:178,213,229;position:relative;overflow:hidden;isolation:isolate;text-align:center;background:radial-gradient(ellipse min(95vw,640px) 100% at 50% 0%,rgba(var(--glow),.44) 0%,rgba(var(--glow),.27) 30%,rgba(var(--glow),.13) 62%,rgba(var(--glow),0) 100%);border-radius:32px;padding:72px 28px 84px}
+/* Contact card: a lamp on the ceiling of the card, shining down. The glow starts at the top edge and spreads downward, fading out at the bottom of the card (its height is 100% of the card; its width is capped at 640px on wide screens). Lime light (--glow). Static. */
+.cta{position:relative;overflow:hidden;isolation:isolate;text-align:center;background:radial-gradient(ellipse min(95vw,640px) 100% at 50% 0%,rgba(var(--glow),.44) 0%,rgba(var(--glow),.27) 30%,rgba(var(--glow),.13) 62%,rgba(var(--glow),0) 100%);border-radius:32px;padding:72px 28px 84px}
 /* Fine film grain over the glow (the small finishing touch). It fades out with the light. */
 .cta:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");opacity:.12;-webkit-mask-image:radial-gradient(ellipse min(95vw,640px) 100% at 50% 0%,#000,transparent);mask-image:radial-gradient(ellipse min(95vw,640px) 100% at 50% 0%,#000,transparent)}
 /* Thin line of light along the top edge, brightest in the middle. */
@@ -97,8 +96,8 @@ h2{font-size:clamp(1.6rem,4.2vw,2.3rem);letter-spacing:-.02em;font-weight:700;ma
 .cta .eyebrow{color:#e6f0f4}
 .cta p{color:#c9d8df;max-width:420px;margin:0 auto 32px}
 .cta .loc{margin:28px auto 0;font-size:13px;letter-spacing:.02em;color:#e6f0f4}
-/* Contact, FAQ, legal and footer: one continuous carbon surface. */
-footer{background:var(--t1);border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}
+/* Contact, FAQ, legal and footer use the same background as the Team section (--bg). */
+footer{background:var(--bg);border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 .hero .tag,.hero h1,.hero .lead,.hero .btns{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
@@ -307,7 +306,7 @@ header,.nav,.brand,.links{min-width:0;max-width:100%}
     </div>
   </section>
 
-  <section id="contact" class="tone-1">
+  <section id="contact">
     <div class="wrap">
       <div class="cta reveal">
         <div class="eyebrow">Contact</div>
@@ -318,7 +317,7 @@ header,.nav,.brand,.links{min-width:0;max-width:100%}
       </div>
     </div>
   </section>
-  <section id="faq" class="legal tone-1">
+  <section id="faq" class="legal">
     <div class="wrap">
       <div class="eyebrow">FAQ</div>
       <h2>Frequently asked questions</h2>
@@ -332,7 +331,7 @@ header,.nav,.brand,.links{min-width:0;max-width:100%}
     </div>
   </section>
 
-  <section id="legal" class="legal tone-1">
+  <section id="legal" class="legal">
     <div class="wrap">
       <div class="eyebrow">Legal</div>
       <details id="privacy"><summary>Privacy Policy</summary><div>
