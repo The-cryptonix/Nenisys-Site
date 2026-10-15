@@ -61,6 +61,8 @@ header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20
 .btn.s{background:transparent;color:var(--text);border-color:var(--ctl)}
 .btn.s:hover{background:rgba(255,255,255,.06);border-color:var(--text)}
 .btn.sm{min-height:34px;padding:0 16px;font-size:13px}
+/* Standard button size: the hero buttons and the Subscribe button share it (fixed width, 44px tap height, never full width). */
+.btn.std{min-height:44px;width:200px;max-width:100%}
 .hero{position:relative;padding:160px 0 100px;text-align:center}
 .hero:before{content:"";position:absolute;top:-60px;left:50%;width:min(640px,100%);height:560px;transform:translateX(-50%);background:radial-gradient(circle,rgba(var(--glow),.06),rgba(var(--glow),0) 65%);pointer-events:none}
 .tag{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--card);padding:6px 14px;border-radius:999px}
@@ -68,7 +70,7 @@ header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20
 h1{position:relative;font-size:clamp(2.2rem,6.5vw,4rem);line-height:1.1;margin:24px auto 20px;letter-spacing:-.03em;font-weight:800;max-width:860px}
 h1 span{color:var(--o)}
 .lead{position:relative;color:var(--muted);font-size:1.05rem;max-width:600px;margin:0 auto}
-.btns{position:relative;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+.btns{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:32px}
 section{padding:80px 0}
 /* Section tones: neutral bands that blend with carbon. Cards inside each band get their own surface so they stay readable. */
 .tone-1{background:var(--t1);--card:#212121;--card2:#2a2a2a;--line:#303030}
@@ -115,7 +117,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 header.scrolled .nav{background:rgba(14,14,14,.82);box-shadow:0 8px 30px rgba(0,0,0,.4)}
 @media (prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}.js .reveal{opacity:1;transform:none}}
 @media(max-width:900px){.wrap{padding:0 18px}.hero{padding:140px 0 80px}}
-@media(max-width:600px){.btns .btn{width:100%}.card{padding:24px}.cta{padding:56px 22px 72px;border-radius:26px}.cta h2{font-size:1.75rem}.cta p{font-size:.98rem;margin-bottom:28px}footer .wrap{flex-direction:column;text-align:center}}
+@media(max-width:600px){.card{padding:24px}.cta{padding:56px 22px 72px;border-radius:26px}.cta h2{font-size:1.75rem}.cta p{font-size:.98rem;margin-bottom:28px}footer .wrap{flex-direction:column;text-align:center}}
 
 .skip{position:absolute;left:12px;top:8px;transform:translateY(-300%);background:var(--o);color:var(--on-o);padding:8px 16px;border-radius:999px;z-index:50}
 .skip:focus{transform:none}
@@ -136,9 +138,9 @@ header .wrap{position:relative}
 .chk svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .feat b{display:block;font-weight:600}
 .feat span{color:var(--muted);font-size:.93rem}
-.count{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.count{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
 .count small{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
-.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 8px}
+.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 8px;align-self:stretch}
 .timer div{background:var(--card2);border-radius:16px;padding:14px 4px}
 .timer b{display:block;font-size:clamp(1.4rem,5vw,1.9rem);font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
 .timer i{font-style:normal;color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
@@ -198,6 +200,8 @@ body{overflow-x:clip}
 /* Brand screen: pinned off-white screen. The wordmark draws in once, then erases right to left as you scroll, leaving the standalone N. */
 .brand-run{position:relative;height:calc(100vh + 55vh);height:calc(100svh + 55svh);background:#faf9f5}
 .brand-screen{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;background:#faf9f5;color:#141413;overflow:hidden}
+/* Seam: the last stretch of the off-white screen fades into the page's carbon (--bg), with eased stops and a faint lime glow so the middle does not turn muddy grey. It sits at the bottom of the run, so it only shows once the scroll animation has finished. */
+.brand-fade{position:absolute;left:0;right:0;bottom:-1px;height:min(200px,26svh);z-index:3;pointer-events:none;background:radial-gradient(ellipse 80% 70% at 50% 100%,rgba(var(--glow),.08),rgba(var(--glow),0) 70%),linear-gradient(to bottom,#faf9f5 0%,#f3f2ef 10%,#e1e1dd 20%,#c7c6c3 30%,#a7a6a4 40%,#848482 50%,#61615f 60%,#414140 70%,#272626 80%,#151514 90%,#0e0e0e 100%)}
 .brand-svg{width:min(780px,86vw);height:auto;display:block}
 /* Base state = finished intro (wordmark beside the small N). Animations only run under .play, so no-JS and reduced motion get this. */
 .bs-markwrap{transform-origin:450px 180px;transform:translate(-261.7px,0) scale(.4667)}
@@ -316,6 +320,7 @@ html.modal-open{overflow:hidden}
       </svg>
       <span class="scroll-cue" aria-hidden="true">Scroll</span>
     </div>
+    <div class="brand-fade" aria-hidden="true"></div>
   </div>
 
   <div class="wrap hero">
@@ -323,8 +328,8 @@ html.modal-open{overflow:hidden}
     <h1>Building <span>technology-driven</span> businesses.</h1>
     <p class="lead">Nenisys is a technology company building products across trading and education, from a funded-trader platform to AI-powered learning.</p>
     <div class="btns">
-      <a class="btn p" href="#divisions">Our Divisions</a>
-      <a class="btn s" href="#contact">Get in Touch</a>
+      <a class="btn p std" href="#divisions">Our Divisions</a>
+      <a class="btn p std" href="#contact">Get in Touch</a>
     </div>
   </div>
 
@@ -379,7 +384,7 @@ html.modal-open{overflow:hidden}
           <small id="cl">Launching in</small>
           <div class="timer" id="timer" aria-live="off"><div><b id="td">--</b><i>Days</i></div><div><b id="th">--</b><i>Hrs</i></div><div><b id="tm">--</b><i>Min</i></div><div><b id="ts">--</b><i>Sec</i></div></div>
           <div class="date">30 October 2026</div>
-          <a class="btn p" id="subopen" href="mailto:hello@nenisys.shop?subject=Mercora%20Edge%20newsletter" data-mail data-subject="Mercora Edge newsletter" aria-haspopup="dialog">Subscribe</a>
+          <a class="btn p std" id="subopen" href="mailto:hello@nenisys.shop?subject=Mercora%20Edge%20newsletter" data-mail data-subject="Mercora Edge newsletter" aria-haspopup="dialog">Subscribe</a>
         </div>
       </div>
       <div class="steps">
