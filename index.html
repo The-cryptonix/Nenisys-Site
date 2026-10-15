@@ -177,6 +177,8 @@ header .wrap{position:relative}
 .step h3{font-size:1rem;font-weight:600;margin-bottom:2px}
 .step p{color:var(--muted);font-size:.9rem}
 .risk{color:var(--muted);font-size:12.5px;margin-top:28px;max-width:640px}
+.risk a{color:var(--text);text-decoration-color:var(--ctl);text-underline-offset:3px}
+.risk a:hover{text-decoration-color:var(--o)}
 
 /* Survey band */
 .survey-sec{padding:56px 0}
@@ -439,7 +441,7 @@ html.modal-open{overflow:hidden}
         <div class="step reveal" style="--d:.12s"><span class="n">2</span><div><h3>Get funded</h3><p>Pass, and you move on to a funded account.</p></div></div>
         <div class="step reveal" style="--d:.24s"><span class="n">3</span><div><h3>Trade</h3><p>Trade with our capital using the Mercora Edge platform.</p></div></div>
       </div>
-      <p class="risk reveal">Trading involves risk. Nothing on this site is financial advice or a guarantee of profit.</p>
+      <p class="risk reveal">Trading involves risk. Nothing on this site is financial advice or a guarantee of profit. <a href="#risk">Read the Risk Disclosure</a>.</p>
     </div>
   </section>
 
@@ -506,19 +508,39 @@ html.modal-open{overflow:hidden}
     <div class="wrap">
       <div class="eyebrow">Legal</div>
       <details id="privacy"><summary>Privacy Policy</summary><div>
-        <p><b>Last updated: 15 October 2026.</b> Nenisys operates this website.</p>
-        <p><b>What we collect.</b> This site does not use analytics, advertising trackers or cookies. If you email us, we receive your email address and anything you choose to write. If you subscribe to the newsletter, we store your email address, the time and source of your signup, and a record of your consent. We email you a confirmation link first and only send updates after you confirm.</p>
-        <p><b>How we use it.</b> Only to reply to you and to send launch updates you asked for. We do not sell personal data.</p>
-        <p><b>Third parties.</b> Fonts are loaded from Google Fonts, which may receive your IP address and browser details when the page loads. The subscribe form sends your email address to our own server, and an email service delivers our messages for us.</p>
-        <p><b>Your choices.</b> Every newsletter email has an unsubscribe link. You can also ask us to delete your emails or stop updates at any time by writing to <a data-mail data-text href="mailto:hello@nenisys.shop">hello@nenisys.shop</a>.</p>
+        <p><b>Last updated: 15 October 2026.</b> This policy covers the Nenisys website (nenisys.shop) and its newsletter signup. The survey at survey.nenisys.shop has its own Privacy Notice.</p>
+        <p><b>Who we are.</b> Nenisys, based in Port Harcourt, Rivers State, Nigeria, runs this website and decides how the data described here is used. You can reach us at <a data-mail data-text href="mailto:hello@nenisys.shop">hello@nenisys.shop</a>.</p>
+        <p><b>What we collect.</b> This site does not use analytics, advertising trackers or cookies. If you email us, we receive your email address and anything you choose to write. If you subscribe to the newsletter, we store your email address, the time and source of your signup, and a record of your consent, including the version of this policy in force and the time you confirmed or unsubscribed. We email you a confirmation link first and only send updates after you confirm. To limit abuse of the signup form, our server also uses a scrambled (hashed) identifier derived from your connection. We never store your raw IP address with your signup.</p>
+        <p><b>Why we use it, and our basis.</b> To reply to you, to send the launch updates you asked for, to keep proof of your consent, and to protect the signup form from abuse. We rely on your consent for the newsletter, and on our legitimate interest in keeping the site secure. We do not sell personal data, and we do not use it for advertising.</p>
+        <p><b>Who handles it.</b> Providers act for us and only to run the service: Vercel hosts this site and the signup service, Neon hosts the database that holds the newsletter list, and Brevo delivers our emails. Fonts are loaded from Google Fonts, which may receive your IP address and browser details when the page loads. These providers may process data on servers outside Nigeria, and our hosting providers see technical connection details such as your IP address when you load a page.</p>
+        <p><b>How long we keep it.</b> Signups that are never confirmed are deleted after about 7 days. Confirmed addresses are kept until you unsubscribe or the newsletter ends. After you unsubscribe, we keep your address for up to about 12 months, only so we can keep honouring your opt-out, and then delete it. Emails you send us are kept for as long as needed to deal with your message. Our database provider keeps a recovery history, so deleted data can remain in backups for a limited time until that history expires.</p>
+        <p><b>Your choices and rights.</b> Every newsletter email has an unsubscribe link. You can also write to us at any time to ask what we hold about you, to correct or delete it, to object to how we use it, or to stop updates. We aim to answer within 30 days. Where the Nigeria Data Protection Act applies to you, you may also complain to the Nigeria Data Protection Commission if you are not happy with how we handle your data.</p>
+        <p><b>Children.</b> This site is not meant for anyone under 18, and we do not knowingly collect data from children.</p>
+        <p><b>Security.</b> Connections are encrypted (HTTPS), and the newsletter list is kept apart from survey answers. Nothing links a subscriber to a survey response.</p>
+        <p><b>Changes.</b> If we change this policy, the date above will change. If the change affects how we use newsletter data, we will tell subscribers.</p>
       </div></details>
       <details id="terms"><summary>Terms of Use</summary><div>
-        <p>This website is for general information about Nenisys and its products. Products described here, including Mercora Edge and Edutech AI, are in development or pre-launch; features, rules and launch dates may change.</p>
-        <p>Content is provided as is, without warranties. Nothing here is an offer, a contract, or financial, legal or investment advice. All names, text and design on this site belong to Nenisys unless stated otherwise.</p>
+        <p><b>Last updated: 15 October 2026.</b> By using this website you agree to these terms. If you do not agree, please do not use it.</p>
+        <p><b>About this site.</b> This website is for general information about Nenisys and its products. It is run by Nenisys, based in Port Harcourt, Rivers State, Nigeria. Products described here, including Mercora Edge and Edutech AI, are in development or pre-launch. Features, rules, fees and launch dates may change without notice.</p>
+        <p><b>No advice, no offer.</b> Nothing here is an offer, a contract, or financial, legal, tax or investment advice. Please also read the Risk Disclosure below.</p>
+        <p><b>Newsletter.</b> If you subscribe, you agree to receive launch updates by email. You can unsubscribe at any time using the link in any email. Details of how we handle your data are in the Privacy Policy.</p>
+        <p><b>Using the site.</b> Please do not misuse the site: do not try to break, overload or bypass it, use bots or automated tools against it or its signup form, submit someone else's email address without their permission, or use it for anything unlawful.</p>
+        <p><b>Our content.</b> All names, logos, text and design on this site belong to Nenisys unless stated otherwise. You may view the site and share its links, but you may not copy or reuse our brand or content without our written permission.</p>
+        <p><b>Links to other sites.</b> This site links to other sites and services, such as our survey, TikTok and X. They have their own terms and privacy practices, and we are not responsible for them.</p>
+        <p><b>No warranties.</b> Content is provided as is, without promises that it is complete, accurate, up to date, or that the site will always be available.</p>
+        <p><b>Limits on our responsibility.</b> As far as the law allows, Nenisys is not responsible for any loss that comes from using the site, being unable to use it, or relying on its content. Nothing in these terms limits any right you have under law that cannot be limited.</p>
+        <p><b>Governing law.</b> These terms are governed by the laws of the Federal Republic of Nigeria.</p>
+        <p><b>Changes and contact.</b> We may update these terms, and the date above will show the latest version. Questions: <a data-mail data-text href="mailto:hello@nenisys.shop">hello@nenisys.shop</a>.</p>
       </div></details>
       <details id="risk"><summary>Risk Disclosure</summary><div>
-        <p>Trading financial markets involves substantial risk of loss and is not suitable for everyone. Past performance does not guarantee future results, and nothing on this site promises profit or income.</p>
-        <p>Mercora Edge's evaluation and funded account rules will be published before launch and may not be available in every country. Seek independent advice if you are unsure whether trading is right for you.</p>
+        <p><b>Last updated: 15 October 2026.</b> This disclosure applies to everything on this site about trading, funded accounts or Mercora Edge.</p>
+        <p><b>Trading involves risk.</b> Trading financial markets carries a substantial risk of loss and is not suitable for everyone. You can lose some or all of the money you put in, including any fees you pay. Past performance does not guarantee future results.</p>
+        <p><b>No advice and no promise of profit.</b> Nothing on this site is financial, legal, tax or investment advice, or an invitation to trade. We do not promise profit or income, and we do not promise that anyone will pass an evaluation, receive a funded account or be paid.</p>
+        <p><b>Mercora Edge is not launched yet.</b> It is in development. The evaluation and funded account rules, any fees and the launch date will be published before launch and may change. Read the full rules before you decide anything. A summary on this site is not a substitute for them.</p>
+        <p><b>Evaluations and funded accounts.</b> Any evaluation or funded account will come with targets, loss limits and other rules. Meeting them can be difficult, and breaking a rule can end an account.</p>
+        <p><b>Market and technology risk.</b> Markets can move fast, gap and become illiquid. Trading platforms and data feeds can be delayed, interrupted or wrong, and orders may be filled at prices different from the ones you expected. Any of these can affect results.</p>
+        <p><b>Availability and local law.</b> Mercora Edge may not be available in every country. You are responsible for checking that taking part is allowed where you live, and for any tax that applies to you.</p>
+        <p><b>Get independent advice.</b> If you are unsure whether trading is right for you, speak to a qualified, independent adviser first.</p>
       </div></details>
     </div>
   </section>
