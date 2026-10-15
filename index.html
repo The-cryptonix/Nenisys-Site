@@ -199,12 +199,12 @@ body{overflow-x:clip}
 @keyframes ld-s1{0%,10%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}35%,70%{stroke-dashoffset:0;animation-timing-function:cubic-bezier(.6,0,.2,1)}95%,100%{stroke-dashoffset:-1}}
 @keyframes ld-s2{0%,25%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.6,0,.2,1)}60%,75%{stroke-dashoffset:0;animation-timing-function:cubic-bezier(.6,0,.2,1)}100%{stroke-dashoffset:-1}}
 
-/* Brand screen: pinned off-white screen. The wordmark draws in once, then erases right to left as you scroll, leaving the standalone N. */
-.brand-run{position:relative;height:calc(100vh + 55vh);height:calc(100svh + 55svh);background:#faf9f5}
-.brand-screen{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;background:#faf9f5;color:#141413;overflow:hidden}
-/* Seam: the last stretch of the off-white screen fades into the page's carbon (--bg). Smootherstep-eased stops: the white stays clean for the first 10%, most of the change happens in the lower half, and the end is exactly #0e0e0e (no tint, so no line against the hero below). A fine neutral grain (same idea as the contact card) breaks up banding, which is what made the old fade look like a hard edge. It sits at the bottom of the run, so it only shows once the scroll animation has finished. */
-.brand-fade{position:absolute;left:0;right:0;bottom:-1px;height:min(260px,32svh);z-index:3;pointer-events:none;background:linear-gradient(to bottom,#faf9f5 0%,#faf9f5 10%,#f8f7f3 15%,#f5f4f0 20%,#efeeea 25%,#e6e5e1 30%,#d9d8d4 35%,#c8c7c4 40%,#b4b3b0 45%,#9d9d9a 50%,#858583 55%,#6d6d6b 60%,#565554 65%,#40403f 70%,#2e2e2e 75%,#202020 80%,#161616 85%,#111111 90%,#0e0e0e 95%,#0e0e0e 100%)}
-.brand-fade:after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");opacity:.09;-webkit-mask-image:linear-gradient(to bottom,transparent 30%,#000 60%,transparent 96%);mask-image:linear-gradient(to bottom,transparent 30%,#000 60%,transparent 96%)}
+/* Brand screen: pinned screen that starts off-white. The wordmark draws in once, then erases right to left as you scroll, leaving the standalone N. */
+/* Seam fix: while the wordmark erases, JS also moves the screen from off-white to the page's carbon (--bsbg, --bsfg), and the N flips to light. By the end of the scroll the screen already IS #0e0e0e, so there is no white edge left to blend. */
+.brand-run{position:relative;height:calc(100vh + 55vh);height:calc(100svh + 55svh);background:var(--bsbg,#faf9f5)}
+.brand-screen{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;background:var(--bsbg,#faf9f5);color:var(--bsfg,#141413);transition:color .25s;overflow:hidden}
+/* Safety net only: a short fade into carbon at the very bottom (invisible once the screen is dark; it covers the no-JS case). */
+.brand-fade{position:absolute;left:0;right:0;bottom:-1px;height:min(120px,16svh);z-index:3;pointer-events:none;background:linear-gradient(to bottom,rgba(14,14,14,0),#0e0e0e)}
 .brand-svg{width:min(780px,86vw);height:auto;display:block}
 /* Base state = finished intro (wordmark beside the small N). Animations only run under .play, so no-JS and reduced motion get this. */
 .bs-markwrap{transform-origin:450px 180px;transform:translate(-261.7px,0) scale(.4667)}
@@ -596,7 +596,8 @@ fail("Signup is temporarily unavailable. Please try again later.")})
 </script>
 <script>
 /* Brand motion. (1) Loader hand-off: fade the off-white loader, then play the wordmark intro once.
-   (2) Scroll: the wordmark erases right to left and the N grows back to centre (the standalone logo). */
+   (2) Scroll: the wordmark erases right to left and the N grows back to centre (the standalone logo).
+   (3) Scroll: the screen also fades from off-white to carbon (#0e0e0e) and the N turns light, so the hero below needs no seam. */
 (function(){
 var d=document,de=d.documentElement,run=d.getElementById("brandrun"),pl=d.getElementById("preload");
 if(!run)return;
@@ -605,7 +606,10 @@ L=[].slice.call(d.querySelectorAll("#bsword path")).reverse(),
 rm=matchMedia("(prefers-reduced-motion:reduce)").matches,done=false,raf=0,hid=false;
 function cl(v){return v<0?0:v>1?1:v}
 function ez(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
-function paint(p){L.forEach(function(el,i){var e=ez(cl((p-i*.05)/.25));el.style.strokeDashoffset=e;el.style.opacity=e>.995?0:1});var m=ez(cl((p-.45)/.55));mark.style.transform="translate("+(-261.7*(1-m))+"px,0) scale("+(.4667+.5333*m)+")"}
+function mx(a,b,t){return Math.round(a+(b-a)*t)}
+/* Darken from 30% to 85% of the scroll run, so the last stretch is steady carbon. The N switches from dark to light at the halfway point, where the screen is mid-grey, to keep contrast. */
+function tone(p){var k=ez(cl((p-.3)/.55));run.style.setProperty("--bsbg","rgb("+mx(250,14,k)+","+mx(249,14,k)+","+mx(245,14,k)+")");run.style.setProperty("--bsfg",k<.5?"#141413":"#faf9f5")}
+function paint(p){L.forEach(function(el,i){var e=ez(cl((p-i*.05)/.25));el.style.strokeDashoffset=e;el.style.opacity=e>.995?0:1});var m=ez(cl((p-.45)/.55));mark.style.transform="translate("+(-261.7*(1-m))+"px,0) scale("+(.4667+.5333*m)+")";tone(p)}
 function finish(){if(done)return;done=true;run.classList.add("done","ready")}
 function upd(){raf=0;var r=run.getBoundingClientRect(),span=run.offsetHeight-scr.offsetHeight,p=span>0?cl(-r.top/span):0;de.classList.toggle("on-brand",r.bottom>90);if(p>0)finish();if(done)paint(p);if(cue)cue.style.opacity=p>0?String(.55*(1-cl(p*5))):""}
 function sched(){if(!raf)raf=requestAnimationFrame(upd)}
