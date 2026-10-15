@@ -45,10 +45,12 @@ html{scroll-behavior:smooth;scroll-padding-top:80px;background:var(--bg)}
 body{background:var(--bg);color:var(--text);font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.65;overflow-x:hidden}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
 header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;padding:12px 0}
-.nav{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 9px 0 18px;border:1px solid var(--line);border-radius:999px;background:rgba(14,14,14,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-/* Nav logo: the full NENISYS logo (N mark as the first letter, then ENISYS), same drawing as the brand screen. Only the logo reacts to scrolling: the letters erase and the N mark stays (see the nav script). The pill, links and menu button always stay. */
-.brand{display:flex;align-items:center;text-decoration:none;color:var(--text)}
-.brand svg{display:block;height:16px;width:auto}
+.nav{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 9px;border:1px solid var(--line);border-radius:999px;background:rgba(14,14,14,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+/* Nav logo: the N mark on its own cream chip with a dark N, so it stands apart from the dark pill. While the intro brand screen is in view (html.on-brand, set by the brand script) the big wordmark is the logo, so the chip is hidden and fades in once the intro has been scrolled past. The pill, links and menu button always stay. */
+.brand{display:flex;align-items:center;justify-content:center;flex:none;width:36px;height:36px;border-radius:50%;background:#faf9f5;color:#141413;text-decoration:none;transition:opacity .35s ease,transform .35s ease,visibility .35s}
+.brand:focus-visible{border-radius:50%}
+.brand svg{display:block;height:17px;width:15.5px}
+.on-brand header .brand{opacity:0;visibility:hidden;transform:scale(.7);pointer-events:none}
 .links{display:flex;align-items:center;gap:6px}
 .links a.l{color:var(--muted);text-decoration:none;font-size:14px;padding:7px 12px;border-radius:999px;transition:.2s}
 .links a.l:hover{color:var(--text)}
@@ -203,7 +205,7 @@ header .wrap{position:relative}
 .links a.l{padding:13px 16px;font-size:15px}
 .links .btn{margin-top:6px;min-height:40px}
 }
-@media(max-width:600px){.hero{padding:130px 0 70px}section{padding:56px 0}.survey-sec{padding:44px 0}.survey .btn{width:100%}.nav{padding-left:14px}}
+@media(max-width:600px){.hero{padding:130px 0 70px}section{padding:56px 0}.survey-sec{padding:44px 0}.survey .btn{width:100%}}
 html,body{overflow-x:hidden;max-width:100%}
 main{overflow-x:clip}
 header,.nav,.brand,.links{min-width:0;max-width:100%}
@@ -322,7 +324,7 @@ html.modal-open{overflow:hidden}
 <header>
   <div class="wrap">
     <div class="nav">
-      <a class="brand" href="#top" aria-label="Nenisys home"><svg viewBox="138 126 624 108" aria-hidden="true" focusable="false"><g transform="translate(118.3 110) scale(1.4)"><circle cx="26" cy="23" r="8" fill="currentColor"/><path d="M26 77V44" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="M74 23V77L51 50" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></g><g transform="translate(154.7 110) scale(1.4)" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path class="bs-l" pathLength="1" d="M116 23H78V77H116"/><path class="bs-l" pathLength="1" d="M78 50H106"/><path class="bs-l" pathLength="1" d="M146 77V23L194 77V23"/><path class="bs-l" pathLength="1" d="M224 23V77"/><path class="bs-l" pathLength="1" d="M288 23H268A13.5 13.5 0 0 0 268 50H274A13.5 13.5 0 0 1 274 77H254"/><path class="bs-l" pathLength="1" d="M318 23L338 50L358 23"/><path class="bs-l" pathLength="1" d="M338 50V77"/><path class="bs-l" pathLength="1" d="M422 23H402A13.5 13.5 0 0 0 402 50H408A13.5 13.5 0 0 1 408 77H388"/></g></svg></a>
+      <a class="brand" href="#top" aria-label="Nenisys home"><svg viewBox="18 15 64 70" aria-hidden="true" focusable="false"><circle cx="26" cy="23" r="8" fill="currentColor"/><path d="M26 77V44" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="M74 23V77L51 50" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <div class="links" id="menu">
         <a class="l" href="#about">About</a>
         <a class="l" href="#edge">Mercora Edge</a>
@@ -624,7 +626,8 @@ fail("Signup is temporarily unavailable. Please try again later.")})
 <script>
 /* Brand motion. (1) Loader hand-off: fade the off-white loader, then play the wordmark intro once.
    (2) Scroll: the wordmark erases right to left and the N grows back to centre (the standalone logo).
-   (3) Scroll: the screen also fades from off-white to carbon (#0e0e0e) and the N turns light, so the hero below needs no seam. */
+   (3) Scroll: the screen also fades from off-white to carbon (#0e0e0e) and the N turns light, so the hero below needs no seam.
+   (4) html.on-brand is set while the intro screen is in view; the nav logo chip is hidden in that state and appears once the intro is scrolled past. */
 (function(){
 var d=document,de=d.documentElement,run=d.getElementById("brandrun"),pl=d.getElementById("preload");
 if(!run)return;
@@ -646,22 +649,6 @@ function go(){setTimeout(hide,Math.max(0,1200-performance.now()))}
 if(d.readyState==="complete")go();else addEventListener("load",go);
 setTimeout(hide,6000);
 upd();
-})();
-/* Nav logo on scroll: only the logo reacts. It follows the same scroll progress as the brand screen, so as the big wordmark erases
-   right to left the small nav wordmark erases the same way and only the N mark stays. The navbar itself (pill, links, menu button)
-   is never hidden and the logo stays light on its dark pill. */
-(function(){
-var d=document,run=d.getElementById("brandrun"),b=d.querySelector("header .brand");
-if(!b)return;
-var L=[].slice.call(b.querySelectorAll(".bs-l")).reverse(),raf=0;
-function cl(v){return v<0?0:v>1?1:v}
-function ez(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
-function upd(){raf=0;var p;
-if(run){var r=run.getBoundingClientRect(),span=run.offsetHeight-run.firstElementChild.offsetHeight;p=span>0?cl(-r.top/span):0;if(r.bottom<=90)p=1}
-else p=cl(scrollY/300);
-L.forEach(function(el,i){var e=ez(cl((p-i*.05)/.25));el.style.strokeDashoffset=e;el.style.opacity=e>.995?0:1})}
-function sched(){if(!raf)raf=requestAnimationFrame(upd)}
-addEventListener("scroll",sched,{passive:true});addEventListener("resize",sched);upd();
 })();
 /* Animated favicon (desktop only): the loader N, drawn on a canvas and swapped in as the tab icon while the tab is visible. */
 (function(){
