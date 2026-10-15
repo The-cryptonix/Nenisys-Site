@@ -46,9 +46,9 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',system-ui,-app
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
 header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;padding:12px 0}
 .nav{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 9px 0 18px;border:1px solid var(--line);border-radius:999px;background:rgba(14,14,14,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-/* Nav logo: the full NENISYS logo (N mark as the first letter, then ENISYS), same drawing as the brand screen. On scroll the letters erase and only the N mark stays (see the nav script). */
-.brand{display:flex;align-items:center;text-decoration:none;color:var(--text);transition:color .3s}
-.brand svg{display:block;height:24px;width:auto}
+/* Nav logo: the full NENISYS logo (N mark as the first letter, then ENISYS), same drawing as the brand screen. Only the logo reacts to scrolling: the letters erase and the N mark stays (see the nav script). The pill, links and menu button always stay. */
+.brand{display:flex;align-items:center;text-decoration:none;color:var(--text)}
+.brand svg{display:block;height:16px;width:auto}
 .links{display:flex;align-items:center;gap:6px}
 .links a.l{color:var(--muted);text-decoration:none;font-size:14px;padding:7px 12px;border-radius:999px;transition:.2s}
 .links a.l:hover{color:var(--text)}
@@ -137,12 +137,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .js .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js .reveal.in{opacity:1;transform:none}
 .js .reveal.card.in:hover{transform:translateY(-4px)}
-.nav{transition:background .3s,box-shadow .3s,border-color .3s}
+.nav{transition:background .3s,box-shadow .3s}
 header.scrolled .nav{background:rgba(14,14,14,.82);box-shadow:0 8px 30px rgba(0,0,0,.4)}
-/* Logo-only state (set by the nav script as soon as the page scrolls): the pill and everything on its right (links, Contact, menu button) fade out, leaving just the logo. */
-.links,.burger{transition:opacity .3s,visibility .3s}
-header.logo-only .nav{background:transparent!important;border-color:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
-header.logo-only .links,header.logo-only .burger{opacity:0;visibility:hidden;pointer-events:none}
 @media (prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}.js .reveal{opacity:1;transform:none}}
 @media(max-width:900px){.wrap{padding:0 18px}.hero{padding:140px 0 80px}}
 @media(max-width:600px){.card{padding:24px}.cta{padding:56px 22px 72px;border-radius:26px}.cta h2{font-size:1.75rem}.cta p{font-size:.98rem;margin-bottom:28px}footer .wrap{flex-direction:column;text-align:center}}
@@ -651,22 +647,19 @@ if(d.readyState==="complete")go();else addEventListener("load",go);
 setTimeout(hide,6000);
 upd();
 })();
-/* Nav logo on scroll: follows the same scroll progress as the brand screen. As the big wordmark erases right to left, the nav
-   wordmark erases the same way and only the N mark stays. The nav pill and everything on its right (links, Contact, menu button)
-   fade out as soon as the page scrolls (header.logo-only). The logo colour tracks the brand screen (dark on off-white, light on carbon). */
+/* Nav logo on scroll: only the logo reacts. It follows the same scroll progress as the brand screen, so as the big wordmark erases
+   right to left the small nav wordmark erases the same way and only the N mark stays. The navbar itself (pill, links, menu button)
+   is never hidden and the logo stays light on its dark pill. */
 (function(){
-var d=document,h=d.querySelector("header"),run=d.getElementById("brandrun"),b=h&&h.querySelector(".brand"),m=d.getElementById("menu"),bu=d.querySelector(".burger");
-if(!h||!b)return;
-var L=[].slice.call(b.querySelectorAll(".bs-l")).reverse(),raf=0,lo=false;
+var d=document,run=d.getElementById("brandrun"),b=d.querySelector("header .brand");
+if(!b)return;
+var L=[].slice.call(b.querySelectorAll(".bs-l")).reverse(),raf=0;
 function cl(v){return v<0?0:v>1?1:v}
 function ez(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
 function upd(){raf=0;var p;
 if(run){var r=run.getBoundingClientRect(),span=run.offsetHeight-run.firstElementChild.offsetHeight;p=span>0?cl(-r.top/span):0;if(r.bottom<=90)p=1}
 else p=cl(scrollY/300);
-L.forEach(function(el,i){var e=ez(cl((p-i*.05)/.25));el.style.strokeDashoffset=e;el.style.opacity=e>.995?0:1});
-var on=p>.02||scrollY>8;
-if(on!==lo){lo=on;h.classList.toggle("logo-only",on);if(on&&m){m.classList.remove("open");if(bu)bu.setAttribute("aria-expanded","false")}}
-var k=ez(cl((p-.3)/.55));b.style.color=on?(k<.5?"#141413":"#faf9f5"):""}
+L.forEach(function(el,i){var e=ez(cl((p-i*.05)/.25));el.style.strokeDashoffset=e;el.style.opacity=e>.995?0:1})}
 function sched(){if(!raf)raf=requestAnimationFrame(upd)}
 addEventListener("scroll",sched,{passive:true});addEventListener("resize",sched);upd();
 })();
