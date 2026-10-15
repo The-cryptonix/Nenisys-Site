@@ -93,9 +93,9 @@ h2{font-size:clamp(1.6rem,4.2vw,2.3rem);letter-spacing:-.02em;font-weight:700;ma
 .live{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--ctl)}
 .live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--o);margin-right:8px;vertical-align:middle}
 .soon{background:rgba(255,255,255,.06);color:var(--muted)}
-/* Division cards (Our businesses): a tilted solid badge sits half on the top-left corner, and the 1px border is brightest at that corner,
+/* Division cards (Our businesses): an untilted badge sits centred on the top border (left: 28px keeps it on the straight edge, past the 24px corner radius), and the 1px border is brightest at the top-left corner,
    fading down the left edge and along the top (middle border-box layer = radial glow centred on the corner; last layer = plain grey border).
-   --a is the accent colour of one card: lime by default, off-white for .neutral. Optional picture on top (hides itself if the file is missing). */
+   --a is the accent colour of one card: lime by default, off-white for .neutral. Only the lime (launching) badge gets the slow gradient shimmer. Optional picture on top (hides itself if the file is missing). */
 .dgrid{display:grid;gap:36px 18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));padding-top:14px;isolation:isolate}
 .dcard{--a:198,255,52;position:relative;display:flex;flex-direction:column;border:1px solid transparent;border-radius:24px;background:linear-gradient(#111,#111) padding-box,radial-gradient(ellipse 60% 130% at 0 0,rgba(var(--a),.95) 0%,rgba(var(--a),.45) 45%,rgba(var(--a),0) 100%) border-box,linear-gradient(var(--line),var(--line)) border-box;transition:transform .35s ease,box-shadow .35s ease}
 .dcard.neutral{--a:250,249,245}
@@ -103,7 +103,10 @@ h2{font-size:clamp(1.6rem,4.2vw,2.3rem);letter-spacing:-.02em;font-weight:700;ma
 .js .reveal.dcard.in:hover{transform:translateY(-4px)}
 /* Blurred glow behind the badge corner */
 .dcard:before{content:"";position:absolute;z-index:-1;top:-12px;left:-28px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(var(--a),.26),rgba(var(--a),0) 70%);filter:blur(22px);pointer-events:none}
-.dbadge{position:absolute;top:-16px;left:14px;z-index:2;padding:7px 16px;border-radius:999px;background:rgb(var(--a));color:#121400;font-size:13px;font-weight:700;line-height:1;white-space:nowrap;transform:rotate(-6deg);transform-origin:left center;box-shadow:0 8px 22px rgba(var(--a),.3)}
+.dbadge{position:absolute;top:0;left:28px;z-index:2;padding:7px 16px;border-radius:999px;background:rgb(var(--a));color:#121400;font-size:13px;font-weight:700;line-height:1;white-space:nowrap;transform:translateY(-50%);box-shadow:0 8px 22px rgba(var(--a),.3)}
+/* Launching badge only: slow lime gradient shimmer (dark text stays AA on both stops). Switched off by the reduced-motion rule below. */
+.dcard:not(.neutral) .dbadge{background:linear-gradient(110deg,#c6ff34 0%,#e4ff8a 50%,#c6ff34 100%);background-size:200% 100%;animation:dbadge-shimmer 3.5s linear infinite}
+@keyframes dbadge-shimmer{to{background-position:-200% 0}}
 .dimg{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:23px 23px 0 0;background:#050505}
 .dimg img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
 .dimg:after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(to top,#111,rgba(17,17,17,0));pointer-events:none}
@@ -395,7 +398,7 @@ html.modal-open{overflow:hidden}
           <div class="dimg"><img src="/mercora-edge-card.webp" width="1536" height="1024" alt="Three stacked black metal cards with glowing orange edges" loading="lazy" decoding="async" onerror="this.parentNode.hidden=true"></div>
           <div class="dbody">
             <h3>Mercora Edge</h3>
-            <p>A proprietary trading firm that evaluates traders and provides funded accounts, powered by our in-house trading engine and platform. Launching 30 October.</p>
+            <p>A proprietary trading firm that evaluates traders and provides funded accounts, powered by our in-house trading engine and platform.</p>
             <a class="btn p" href="#edge">Learn more</a>
           </div>
         </div>
