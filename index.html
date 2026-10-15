@@ -234,6 +234,36 @@ body{overflow-x:clip}
 @keyframes cue{0%{transform:scaleY(0)}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
 /* The nav pill sits over off-white while the brand screen is in view, so make it solid enough to read. */
 .on-brand header .nav{background:rgba(14,14,14,.92)}
+
+/* ---- Subscribe modal: reuses the site's card, pill button and chk styles. ---- */
+html.modal-open{overflow:hidden}
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:18px;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+.modal[hidden]{display:none}
+.modal-bg{position:absolute;inset:0;background:rgba(14,14,14,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadein .25s ease both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.modal-card{position:relative;width:min(440px,100%);max-height:100%;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px 28px 28px;box-shadow:0 24px 60px rgba(0,0,0,.55);animation:rise .35s cubic-bezier(.2,.7,.2,1) both}
+.modal-card h2{font-size:1.5rem;margin-bottom:8px;padding-right:36px}
+.modal-card .sub{margin-bottom:20px;font-size:.95rem}
+.modal-x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:var(--card2);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:background .2s}
+.modal-x:hover{background:#2a2a2a}
+.modal-x svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.field{display:block;width:100%;min-height:46px;padding:0 18px;border-radius:999px;border:1px solid var(--ctl);background:var(--card2);color:var(--text);font:inherit;font-size:15px}
+.field::placeholder{color:var(--muted)}
+.field:focus{border-color:var(--o)}
+.consent{display:flex;gap:10px;align-items:flex-start;margin:14px 2px 0;color:var(--muted);font-size:.85rem;line-height:1.5;cursor:pointer}
+.consent input{flex:none;width:18px;height:18px;margin-top:2px;accent-color:var(--o);cursor:pointer}
+.consent a{color:var(--text);text-underline-offset:3px;text-decoration-color:var(--ctl)}
+.consent a:hover{text-decoration-color:var(--o)}
+.fmsg{min-height:1.4em;margin:12px 2px 6px;font-size:.88rem;color:#ffb4a8}
+.modal-card .btn{width:100%}
+.btn[disabled]{opacity:.6;cursor:default}
+.done{text-align:center}
+.done .chk{width:48px;height:48px;margin:4px auto 18px}
+.done .chk svg{width:22px;height:22px}
+.done h2{padding-right:0}
+.done .sub{margin:0 auto 22px}
+.done h2:focus{outline:none}
 </style>
 </head>
 <body>
@@ -349,7 +379,7 @@ body{overflow-x:clip}
           <small id="cl">Launching in</small>
           <div class="timer" id="timer" aria-live="off"><div><b id="td">--</b><i>Days</i></div><div><b id="th">--</b><i>Hrs</i></div><div><b id="tm">--</b><i>Min</i></div><div><b id="ts">--</b><i>Sec</i></div></div>
           <div class="date">30 October 2026</div>
-          <a class="btn p" href="mailto:hello@nenisys.shop?subject=Mercora%20Edge%20waitlist" data-mail data-subject="Mercora Edge waitlist">Join the waitlist</a>
+          <a class="btn p" id="subopen" href="mailto:hello@nenisys.shop?subject=Mercora%20Edge%20newsletter" data-mail data-subject="Mercora Edge newsletter" aria-haspopup="dialog">Subscribe</a>
         </div>
       </div>
       <div class="steps">
@@ -424,11 +454,11 @@ body{overflow-x:clip}
     <div class="wrap">
       <div class="eyebrow">Legal</div>
       <details id="privacy"><summary>Privacy Policy</summary><div>
-        <p><b>Last updated: 9 October 2026.</b> Nenisys operates this website.</p>
-        <p><b>What we collect.</b> This site does not use analytics, advertising trackers or cookies. If you email us, including to join a waitlist, we receive your email address and anything you choose to write.</p>
+        <p><b>Last updated: 15 October 2026.</b> Nenisys operates this website.</p>
+        <p><b>What we collect.</b> This site does not use analytics, advertising trackers or cookies. If you email us, we receive your email address and anything you choose to write. If you subscribe to the newsletter, we store your email address, the time and source of your signup, and a record of your consent. We email you a confirmation link first and only send updates after you confirm.</p>
         <p><b>How we use it.</b> Only to reply to you and to send launch updates you asked for. We do not sell personal data.</p>
-        <p><b>Third parties.</b> Fonts are loaded from Google Fonts, which may receive your IP address and browser details when the page loads.</p>
-        <p><b>Your choices.</b> You can ask us to delete your emails or stop updates at any time by writing to <a data-mail data-text href="mailto:hello@nenisys.shop">hello@nenisys.shop</a>.</p>
+        <p><b>Third parties.</b> Fonts are loaded from Google Fonts, which may receive your IP address and browser details when the page loads. The subscribe form sends your email address to our own server, and an email service delivers our messages for us.</p>
+        <p><b>Your choices.</b> Every newsletter email has an unsubscribe link. You can also ask us to delete your emails or stop updates at any time by writing to <a data-mail data-text href="mailto:hello@nenisys.shop">hello@nenisys.shop</a>.</p>
       </div></details>
       <details id="terms"><summary>Terms of Use</summary><div>
         <p>This website is for general information about Nenisys and its products. Products described here, including Mercora Edge and Edutech AI, are in development or pre-launch; features, rules and launch dates may change.</p>
@@ -448,6 +478,32 @@ body{overflow-x:clip}
     <span class="flinks"><a href="https://survey.nenisys.shop">Survey</a><a href="https://www.tiktok.com/@nenisys.com" target="_blank" rel="noopener noreferrer">TikTok</a><a href="https://x.com/NENISYS" target="_blank" rel="noopener noreferrer">X</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#risk">Risk Disclosure</a></span>
   </div>
 </footer>
+
+<div class="modal" id="subm" hidden>
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="subt">
+    <button class="modal-x" type="button" aria-label="Close" data-close><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <div id="subf">
+      <div class="eyebrow">Newsletter</div>
+      <h2 id="subt">Subscribe to launch updates.</h2>
+      <p class="sub">Get an email when Mercora Edge launches on 30 October. No spam.</p>
+      <form id="subform" novalidate>
+        <label class="sr" for="sube">Email address</label>
+        <input class="field" id="sube" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" maxlength="320" required>
+        <label class="consent"><input type="checkbox" id="subc"><span>I agree to receive the Nenisys newsletter by email and can unsubscribe at any time. See the <a href="#privacy">Privacy Policy</a>.</span></label>
+        <p class="fmsg" id="subg" role="alert"></p>
+        <button class="btn p" type="submit" id="subb">Subscribe</button>
+      </form>
+    </div>
+    <div class="done" id="subd" hidden>
+      <div class="chk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></div>
+      <h2 id="subdt" tabindex="-1">Check your email.</h2>
+      <p class="sub">Check your email to confirm your signup (look in spam too).</p>
+      <button class="btn s" type="button" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
 <script>var CFG={email:"hello@nenisys.shop",location:"Port Harcourt, Nigeria",founders:[]};
 document.querySelectorAll("[data-mail]").forEach(function(a){var sj=a.getAttribute("data-subject");a.href="mailto:"+CFG.email+(sj?"?subject="+encodeURIComponent(sj):"");if(a.hasAttribute("data-text"))a.textContent=CFG.email});
 if(CFG.location){var le=document.getElementById("loc");le.textContent=CFG.location;le.hidden=false}
@@ -457,6 +513,45 @@ document.documentElement.classList.add("js");(function(){var io=new Intersection
 var L=[].slice.call(m.querySelectorAll('a.l[href^="#"]')),S=L.map(function(a){return document.querySelector(a.getAttribute("href"))});function sp(){var y=scrollY+140,i=-1;S.forEach(function(x,k){if(x&&x.offsetTop<=y)i=k});L.forEach(function(a,k){a.classList.toggle("active",k===i)})}addEventListener("scroll",sp,{passive:true});sp();
 var T=new Date(2026,9,30,0,0,0).getTime();function p(n){return String(n).padStart(2,"0")}function tick(){var d=T-Date.now();if(d<=0){document.getElementById("cl").textContent="Launch day";document.getElementById("timer").style.display="none";return}var s=Math.floor(d/1e3);document.getElementById("td").textContent=p(Math.floor(s/86400));document.getElementById("th").textContent=p(Math.floor(s%86400/3600));document.getElementById("tm").textContent=p(Math.floor(s%3600/60));document.getElementById("ts").textContent=p(s%60)}tick();setInterval(tick,1000)})();
 document.getElementById('y').textContent=new Date().getFullYear();</script>
+<script>
+/* Newsletter subscribe modal. Without JS the Subscribe button falls back to a mailto link.
+   Posts to the backend (double opt-in): the confirmation link is sent by email, so the success state asks the person to check their inbox. */
+(function(){
+var API="https://api.nenisys.shop/newsletter/subscribe";
+var d=document,de=d.documentElement,open=d.getElementById("subopen"),m=d.getElementById("subm");
+if(!open||!m)return;
+var card=m.querySelector(".modal-card"),form=d.getElementById("subform"),em=d.getElementById("sube"),cb=d.getElementById("subc"),
+msg=d.getElementById("subg"),btn=d.getElementById("subb"),vf=d.getElementById("subf"),vd=d.getElementById("subd"),dt=d.getElementById("subdt"),
+last=null,busy=false;
+function isOpen(){return !m.hidden}
+function show(done){vf.hidden=done;vd.hidden=!done;if(done)dt.focus()}
+function openM(){last=d.activeElement;msg.textContent="";btn.disabled=false;btn.textContent="Subscribe";busy=false;show(false);m.hidden=false;de.classList.add("modal-open");setTimeout(function(){em.focus()},30)}
+function closeM(){if(!isOpen())return;m.hidden=true;de.classList.remove("modal-open");if(last&&last.focus)last.focus()}
+open.addEventListener("click",function(e){e.preventDefault();openM()});
+m.addEventListener("click",function(e){if(e.target.closest("[data-close]")||e.target.closest('a[href^="#"]'))closeM()});
+d.addEventListener("keydown",function(e){
+if(!isOpen())return;
+if(e.key==="Escape"){closeM();return}
+if(e.key==="Tab"){var f=[].slice.call(card.querySelectorAll("button,input,a[href]")).filter(function(x){return !x.disabled&&x.offsetParent!==null});if(!f.length)return;var a=f[0],z=f[f.length-1];if(e.shiftKey&&d.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&d.activeElement===z){e.preventDefault();a.focus()}}
+});
+function fail(t){msg.textContent=t;busy=false;btn.disabled=false;btn.textContent="Subscribe"}
+form.addEventListener("submit",function(e){
+e.preventDefault();if(busy)return;
+var v=em.value.trim();
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)||v.length>320){msg.textContent="Please enter a valid email address.";em.focus();return}
+if(!cb.checked){msg.textContent="Please tick the box to agree to receive emails.";cb.focus();return}
+msg.textContent="";busy=true;btn.disabled=true;btn.textContent="Subscribing…";
+var ctl=window.AbortController?new AbortController():null,to=setTimeout(function(){if(ctl)ctl.abort()},15000);
+fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:v,consent:true,source:"site"}),credentials:"omit",signal:ctl?ctl.signal:undefined})
+.then(function(r){clearTimeout(to);
+if(r.status===202){busy=false;show(true);return}
+if(r.status===429){fail("Too many tries. Please wait a while and try again.");return}
+if(r.status===400){r.json().then(function(j){fail(j&&j.error==="invalid_email"?"Please enter a valid email address.":"Something went wrong. Please check your details and try again.")},function(){fail("Something went wrong. Please check your details and try again.")});return}
+fail("Signup is temporarily unavailable. Please try again later.")})
+.catch(function(){clearTimeout(to);fail("Signup is temporarily unavailable. Please try again later.")});
+});
+})();
+</script>
 <script>
 /* Brand motion. (1) Loader hand-off: fade the off-white loader, then play the wordmark intro once.
    (2) Scroll: the wordmark erases right to left and the N grows back to centre (the standalone logo). */
