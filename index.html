@@ -61,7 +61,7 @@ header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20
 .btn.s{background:transparent;color:var(--text);border-color:var(--ctl)}
 .btn.s:hover{background:rgba(255,255,255,.06);border-color:var(--text)}
 .btn.sm{min-height:34px;padding:0 16px;font-size:13px}
-/* Standard button size: the hero buttons and the Subscribe button share it (fixed width, 44px tap height, never full width). */
+/* Standard button size: the Subscribe button (fixed width, 44px tap height, never full width). The hero buttons use the plain survey button (.btn.p) and are sized by .btns .btn below. */
 .btn.std{min-height:44px;width:200px;max-width:100%}
 .hero{position:relative;padding:160px 0 100px;text-align:center}
 .hero:before{content:"";position:absolute;top:-60px;left:50%;width:min(640px,100%);height:560px;transform:translateX(-50%);background:radial-gradient(circle,rgba(var(--glow),.06),rgba(var(--glow),0) 65%);pointer-events:none}
@@ -71,6 +71,8 @@ h1{position:relative;font-size:clamp(2.2rem,6.5vw,4rem);line-height:1.1;margin:2
 h1 span{color:var(--o)}
 .lead{position:relative;color:var(--muted);font-size:1.05rem;max-width:600px;margin:0 auto}
 .btns{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:32px}
+/* Hero buttons: the survey button style, made wide (up to 320px, full width on narrow phones). */
+.btns .btn{width:min(100%,320px);min-height:46px}
 section{padding:80px 0}
 /* Section tones: neutral bands that blend with carbon. Cards inside each band get their own surface so they stay readable. */
 .tone-1{background:var(--t1);--card:#212121;--card2:#2a2a2a;--line:#303030}
@@ -200,8 +202,9 @@ body{overflow-x:clip}
 /* Brand screen: pinned off-white screen. The wordmark draws in once, then erases right to left as you scroll, leaving the standalone N. */
 .brand-run{position:relative;height:calc(100vh + 55vh);height:calc(100svh + 55svh);background:#faf9f5}
 .brand-screen{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;background:#faf9f5;color:#141413;overflow:hidden}
-/* Seam: the last stretch of the off-white screen fades into the page's carbon (--bg), with eased stops and a faint lime glow so the middle does not turn muddy grey. It sits at the bottom of the run, so it only shows once the scroll animation has finished. */
-.brand-fade{position:absolute;left:0;right:0;bottom:-1px;height:min(200px,26svh);z-index:3;pointer-events:none;background:radial-gradient(ellipse 80% 70% at 50% 100%,rgba(var(--glow),.08),rgba(var(--glow),0) 70%),linear-gradient(to bottom,#faf9f5 0%,#f3f2ef 10%,#e1e1dd 20%,#c7c6c3 30%,#a7a6a4 40%,#848482 50%,#61615f 60%,#414140 70%,#272626 80%,#151514 90%,#0e0e0e 100%)}
+/* Seam: the last stretch of the off-white screen fades into the page's carbon (--bg). Smootherstep-eased stops: the white stays clean for the first 10%, most of the change happens in the lower half, and the end is exactly #0e0e0e (no tint, so no line against the hero below). A fine neutral grain (same idea as the contact card) breaks up banding, which is what made the old fade look like a hard edge. It sits at the bottom of the run, so it only shows once the scroll animation has finished. */
+.brand-fade{position:absolute;left:0;right:0;bottom:-1px;height:min(260px,32svh);z-index:3;pointer-events:none;background:linear-gradient(to bottom,#faf9f5 0%,#faf9f5 10%,#f8f7f3 15%,#f5f4f0 20%,#efeeea 25%,#e6e5e1 30%,#d9d8d4 35%,#c8c7c4 40%,#b4b3b0 45%,#9d9d9a 50%,#858583 55%,#6d6d6b 60%,#565554 65%,#40403f 70%,#2e2e2e 75%,#202020 80%,#161616 85%,#111111 90%,#0e0e0e 95%,#0e0e0e 100%)}
+.brand-fade:after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");opacity:.09;-webkit-mask-image:linear-gradient(to bottom,transparent 30%,#000 60%,transparent 96%);mask-image:linear-gradient(to bottom,transparent 30%,#000 60%,transparent 96%)}
 .brand-svg{width:min(780px,86vw);height:auto;display:block}
 /* Base state = finished intro (wordmark beside the small N). Animations only run under .play, so no-JS and reduced motion get this. */
 .bs-markwrap{transform-origin:450px 180px;transform:translate(-261.7px,0) scale(.4667)}
@@ -263,8 +266,23 @@ html.modal-open{overflow:hidden}
 .modal-card .btn{width:100%}
 .btn[disabled]{opacity:.6;cursor:default}
 .done{text-align:center}
-.done .chk{width:48px;height:48px;margin:4px auto 18px}
-.done .chk svg{width:22px;height:22px}
+/* Success check: a green ring draws, the tick draws, a pop and one confetti burst play once, then it stops. Tap it to replay. Static (finished) if motion is reduced. */
+.ok{position:relative;display:block;width:72px;height:72px;margin:0 auto 14px;padding:0;border:0;border-radius:50%;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ok svg{display:block;width:72px;height:72px;overflow:visible}
+.ok-c{fill:rgba(46,204,113,.14);stroke:#2ecc71;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:50% 50%;transform-box:fill-box}
+.ok-t{fill:none;stroke:#2ecc71;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.ok:before{content:"";position:absolute;inset:4px;border-radius:50%;border:2px solid #2ecc71;opacity:0;pointer-events:none}
+.cf{position:absolute;left:50%;top:50%;width:6px;height:11px;margin:-5px 0 0 -3px;border-radius:2px;background:var(--c);opacity:0;pointer-events:none}
+.ok.go .ok-c{animation:ok-c .6s cubic-bezier(.6,0,.2,1) both}
+.ok.go .ok-t{animation:ok-t .35s .5s cubic-bezier(.6,0,.2,1) both}
+.ok.go svg{animation:ok-pop .45s .62s ease-out both}
+.ok.go:before{animation:ok-ring .8s .55s ease-out both}
+.ok.go .cf{animation:ok-cf 1s cubic-bezier(.15,.75,.3,1) var(--dl,.6s) both}
+@keyframes ok-c{from{stroke-dashoffset:1;fill:rgba(46,204,113,0)}to{stroke-dashoffset:0}}
+@keyframes ok-t{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes ok-pop{0%{transform:scale(1)}50%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes ok-ring{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.9)}}
+@keyframes ok-cf{0%{opacity:1;transform:rotate(var(--a)) translateY(-26px) scale(.7)}70%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(calc(var(--d)*-1)) rotate(var(--s)) scale(1)}}
 .done h2{padding-right:0}
 .done .sub{margin:0 auto 22px}
 .done h2:focus{outline:none}
@@ -328,8 +346,8 @@ html.modal-open{overflow:hidden}
     <h1>Building <span>technology-driven</span> businesses.</h1>
     <p class="lead">Nenisys is a technology company building products across trading and education, from a funded-trader platform to AI-powered learning.</p>
     <div class="btns">
-      <a class="btn p std" href="#divisions">Our Divisions</a>
-      <a class="btn p std" href="#contact">Get in Touch</a>
+      <a class="btn p" href="#divisions">Our Divisions</a>
+      <a class="btn p" href="#contact">Get in Touch</a>
     </div>
   </div>
 
@@ -501,7 +519,23 @@ html.modal-open{overflow:hidden}
       </form>
     </div>
     <div class="done" id="subd" hidden>
-      <div class="chk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></div>
+      <button class="ok" type="button" id="subok" aria-label="Play the success animation again">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="ok-c" cx="32" cy="32" r="28" pathLength="1"/><path class="ok-t" pathLength="1" d="M20 33l9 9 16-19"/></svg>
+        <i class="cf" style="--a:0deg;--d:52px;--s:200deg;--c:#c6ff34"></i>
+        <i class="cf" style="--a:26deg;--d:42px;--s:-220deg;--c:#2ecc71;--dl:.66s"></i>
+        <i class="cf" style="--a:51deg;--d:54px;--s:180deg;--c:#faf9f5"></i>
+        <i class="cf" style="--a:77deg;--d:44px;--s:-160deg;--c:#a6f08a;--dl:.68s"></i>
+        <i class="cf" style="--a:103deg;--d:52px;--s:240deg;--c:#c6ff34"></i>
+        <i class="cf" style="--a:129deg;--d:40px;--s:-200deg;--c:#2ecc71;--dl:.64s"></i>
+        <i class="cf" style="--a:154deg;--d:54px;--s:170deg;--c:#faf9f5"></i>
+        <i class="cf" style="--a:180deg;--d:44px;--s:-240deg;--c:#a6f08a;--dl:.7s"></i>
+        <i class="cf" style="--a:206deg;--d:52px;--s:210deg;--c:#c6ff34"></i>
+        <i class="cf" style="--a:231deg;--d:42px;--s:-180deg;--c:#2ecc71;--dl:.66s"></i>
+        <i class="cf" style="--a:257deg;--d:54px;--s:230deg;--c:#faf9f5"></i>
+        <i class="cf" style="--a:283deg;--d:44px;--s:-170deg;--c:#a6f08a;--dl:.68s"></i>
+        <i class="cf" style="--a:309deg;--d:52px;--s:190deg;--c:#c6ff34"></i>
+        <i class="cf" style="--a:334deg;--d:40px;--s:-210deg;--c:#2ecc71;--dl:.64s"></i>
+      </button>
       <h2 id="subdt" tabindex="-1">Check your email.</h2>
       <p class="sub">Check your email to confirm your signup (look in spam too).</p>
       <button class="btn s" type="button" data-close>Close</button>
@@ -526,10 +560,13 @@ var API="https://api.nenisys.shop/newsletter/subscribe";
 var d=document,de=d.documentElement,open=d.getElementById("subopen"),m=d.getElementById("subm");
 if(!open||!m)return;
 var card=m.querySelector(".modal-card"),form=d.getElementById("subform"),em=d.getElementById("sube"),cb=d.getElementById("subc"),
-msg=d.getElementById("subg"),btn=d.getElementById("subb"),vf=d.getElementById("subf"),vd=d.getElementById("subd"),dt=d.getElementById("subdt"),
+msg=d.getElementById("subg"),btn=d.getElementById("subb"),vf=d.getElementById("subf"),vd=d.getElementById("subd"),dt=d.getElementById("subdt"),ok=d.getElementById("subok"),
 last=null,busy=false;
 function isOpen(){return !m.hidden}
-function show(done){vf.hidden=done;vd.hidden=!done;if(done)dt.focus()}
+/* Success check: restart the CSS animation (plays once, then stops). Runs on success and on every tap of the check. */
+function burst(){if(!ok)return;ok.classList.remove("go");void ok.offsetWidth;ok.classList.add("go")}
+if(ok)ok.addEventListener("click",burst);
+function show(done){vf.hidden=done;vd.hidden=!done;if(done){dt.focus();burst()}else if(ok)ok.classList.remove("go")}
 function openM(){last=d.activeElement;msg.textContent="";btn.disabled=false;btn.textContent="Subscribe";busy=false;show(false);m.hidden=false;de.classList.add("modal-open");setTimeout(function(){em.focus()},30)}
 function closeM(){if(!isOpen())return;m.hidden=true;de.classList.remove("modal-open");if(last&&last.focus)last.focus()}
 open.addEventListener("click",function(e){e.preventDefault();openM()});
