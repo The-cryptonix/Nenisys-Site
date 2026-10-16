@@ -185,6 +185,11 @@ header .wrap{position:relative}
 .survey{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
 .survey h2{margin-bottom:6px}
 .survey .sub{margin-bottom:0;max-width:520px}
+/* Blog + Survey: two equal cards in one band, so neither competes for attention. Only the blog button is lime. */
+.duo .card{display:flex;flex-direction:column;align-items:flex-start;padding:32px}
+.duo .card h3{font-size:1.4rem;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.duo .card p{margin-bottom:26px}
+.duo .btn{width:100%;min-height:46px;margin-top:auto}
 
 .avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;display:block;margin-bottom:18px;background:var(--card2)}
 .legal{padding:48px 0}
@@ -459,28 +464,21 @@ html.modal-open{overflow:hidden}
     </div>
   </section>
 
-  <section id="blog" class="survey-sec tone-2">
+  <section id="blog" class="tone-2">
     <div class="wrap">
-      <div class="survey reveal">
-        <div>
+      <div class="grid duo">
+        <div class="card reveal">
           <div class="eyebrow">Blog</div>
-          <h2>Ideas, updates and lessons.</h2>
-          <p class="sub">Product news and behind-the-scenes notes from the team building Mercora Edge and Edutech AI.</p>
+          <h3>Ideas, updates and lessons.</h3>
+          <p>Product news and behind-the-scenes notes from the team building Mercora Edge and Edutech AI.</p>
+          <a class="btn p" href="/blog">Read the blog</a>
         </div>
-        <a class="btn p" href="/blog">Read the blog</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="survey" class="survey-sec tone-3">
-    <div class="wrap">
-      <div class="survey reveal">
-        <div>
+        <div class="card reveal" id="survey" style="--d:.12s">
           <div class="eyebrow">Survey</div>
-          <h2>Have your say.</h2>
-          <p class="sub">Take our short survey. It is anonymous and only a few quick questions.</p>
+          <h3>Have your say.</h3>
+          <p>Take our short survey. It is anonymous and only a few quick questions.</p>
+          <a class="btn s" href="https://survey.nenisys.shop">Take the survey</a>
         </div>
-        <a class="btn p" href="https://survey.nenisys.shop">Take the survey</a>
       </div>
     </div>
   </section>
