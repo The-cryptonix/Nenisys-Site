@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/blog", "destination": "https://blog-origin.nenisys.shop/blog" },
+    { "source": "/blog/", "destination": "https://blog-origin.nenisys.shop/blog" },
     { "source": "/blog/:path*", "destination": "https://blog-origin.nenisys.shop/blog/:path*" },
     { "source": "/sitemap-blog.xml", "destination": "https://blog-origin.nenisys.shop/sitemap-blog.xml" }
   ]
